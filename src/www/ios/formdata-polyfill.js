@@ -106,7 +106,7 @@
 
     if (value && Blob.prototype.isPrototypeOf(value))
     {
-      if (!filename)
+      if (filename == null)
         filename = "Blob";
 
       Object.defineProperty(value, "name", {value: filename});
@@ -327,9 +327,13 @@
       data.push('content-disposition: form-data; name="');
       data.push(entry.name);
       data.push('"\r\n');
-      data.push('\r\n');
+      if (entry.type) {
+        data.push('Content-Type: ');
+        data.push(entry.type);
+      }
+      data.push('\r\n\r\n');
       data.push(entry.value);
-      data.push("\r\n");
+      data.push('\r\n');
     }
     else
     {
